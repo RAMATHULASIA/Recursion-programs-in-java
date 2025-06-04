@@ -1,0 +1,133 @@
+# Recursion-programs-in-java
+Important programs of recursion in java
+PROGRAM 1:
+FACTORIAL USING RECURSION class Main {
+    static int factorial(int n){
+        if(n<=1){
+            return 1;
+        } else {
+            return n*factorial(n-1);
+        }
+    }
+    public static void main(String[] args){
+        int number=5;
+        int result=factorial(number);
+        System.out.println("Factorial of " + number + " is " + result);
+    }
+}
+
+
+
+PROGRAM 2:
+FIBONACCI SERIES USING RECURSION:
+
+class Main{
+    static int fibonacci(int n){
+        if(n==0){
+            return 0;
+        } else if(n==1){
+            return 1;
+        } else {
+            return fibonacci(n-1)+fibonacci(n-2);
+        }
+    }
+    public static void main(String[] args){
+        int terms = 20;
+        System.out.println("Fibonacci series:");
+        for(int i=0;i<terms;i++){
+            System.out.println(fibonacci(i)+" ");
+        }
+    }
+}
+
+
+PROGRAM 3:
+
+SUM OF N NATURAL NUMBERS USING RECURSION
+
+
+class Main{
+    static int sumofNaturalNumbers(int n){
+        if(n==1){
+            return 1;
+        }else {
+            return n+sumofNaturalNumbers(n-1);
+        }
+    }
+    public static void main(String[] args){
+        int number =10;
+        int result=sumofNaturalNumbers(number);
+        System.out.println("sum of first "+number+" natural numbers is "+result);
+    }
+}
+
+
+
+
+PROGRAM 4:
+
+REVERSE A STRING USING RECURSION:
+
+
+
+class Main{
+    static String reverse(String str){
+        if(str.isEmpty()){
+            return str;
+        } else {
+            return reverse(str.substring(1))+str.charAt(0);
+        }
+    }
+    public static void main(String[] args){
+        String s="hello";
+        System.out.println("Reversed string: " + reverse(s));
+    }
+}
+
+
+PROGRAM 5:
+
+PALINDROME USING RECURSION 
+
+
+class Main {
+    static boolean isPalindrome(String s, int start,int end){
+        if(start>=end){
+            return true;
+        }
+        if(s.charAt(start)!=s.charAt(end)){
+            return false;
+        }
+        return isPalindrome(s,start+1,end-1);
+    }
+    public static void main(String[] args){
+        String s="madam";
+        if(isPalindrome(s,0,s.length()-1)){
+            System.out.println(s+"is palindrome");
+        } else{
+            System.out.println(s+"is not a palindrome");
+        }
+    }
+}
+
+
+PROGRAM 6:
+
+TOWERS OF HANOI PROBLEM 
+public class Main{
+    public static void SolveHanoi(int n,char source,char auxiliary,char destination){
+        if(n==1){
+            System.out.println(" Move disk 1 from " +source+" to "+destination);
+            return;
+            }
+            SolveHanoi(n - 1,source,destination,auxiliary);
+            System.out.println(" Move disk "+n+" from "+source+" to "+destination);
+            SolveHanoi(n-1,auxiliary,source,destination);
+        }
+        public static void main(String[] args){
+            int numDisks=4;
+            System.out.println(" Towers of Hanoi Solution for "+numDisks+" disks ");
+            SolveHanoi(numDisks,'A','B','C');
+        }
+    }
+
