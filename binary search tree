@@ -1,0 +1,92 @@
+// Node class
+class Node {
+    int val;
+    Node left, right;
+
+    Node(int val) {
+        this.val = val;
+        left = right = null;
+    }
+}
+
+// BST class
+class BST {
+    Node root;
+
+    Node insert(Node node, int key) {
+        if (node == null)
+            return new Node(key);
+
+        if (key < node.val)
+            node.left = insert(node.left, key);
+        else if (key > node.val)
+            node.right = insert(node.right, key);
+
+        return node;
+    }
+
+    // Search for a node
+    boolean search(Node node, int key) {
+        if (node == null)
+            return false;
+        if (key == node.val)
+            return true;
+        else if (key < node.val)
+            return search(node.left, key);
+        else
+            return search(node.right, key);
+    }
+
+    // Inorder traversal (sorted order)
+    void inorder(Node node) {
+        if (node != null) {
+            inorder(node.left);
+            System.out.print(node.val + " ");
+            inorder(node.right);
+        }
+    }
+
+    // Preorder traversal
+    void preorder(Node node) {
+        if (node != null) {
+            System.out.print(node.val + " ");
+            preorder(node.left);
+            preorder(node.right);
+        }
+    }
+
+    // Postorder traversal
+    void postorder(Node node) {
+        if (node != null) {
+            postorder(node.left);
+            postorder(node.right);
+            System.out.print(node.val + " ");
+        }
+    }
+
+    // Main method moved to a separate class below
+}
+
+// Driver class with main method
+public class Main {
+    public static void main(String[] args) {
+        BST tree = new BST();
+        int[] keys = {50, 30, 20, 40, 70, 60, 80};
+
+        for (int key : keys) {
+            tree.root = tree.insert(tree.root, key);
+        }
+
+        System.out.println("Inorder Traversal (sorted):");
+        tree.inorder(tree.root);
+
+        System.out.println("\nPreorder Traversal:");
+        tree.preorder(tree.root);
+
+        System.out.println("\nPostorder Traversal:");
+        tree.postorder(tree.root);
+
+        int searchKey = 60;
+        System.out.println("\n\nSearch for " + searchKey + ": " + (tree.search(tree.root, searchKey) ? "Found" : "Not Found"));
+    }
+}
