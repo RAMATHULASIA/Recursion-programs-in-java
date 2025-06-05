@@ -1,0 +1,88 @@
+// Node class
+class Node {
+    int val;
+    Node left, right;
+    Node(int val) {
+        this.val = val;
+        left = right = null;
+    }
+}
+
+// BinaryTree class
+class BinaryTree {
+    Node root;
+
+    void buildSampleTree() {
+        root = new Node(1);
+        root.left = new Node(2);
+        root.right = new Node(3);
+        root.left.left = new Node(4);
+        root.left.right = new Node(5);
+    }
+
+    // Inorder traversal (left, root, right)
+    void inorder(Node node) {
+        if (node != null) {
+            inorder(node.left);
+            System.out.print(node.val + " ");
+            inorder(node.right);
+        }
+    }
+
+    // Preorder traversal (root, left, right)
+    void preorder(Node node) {
+        if (node != null) {
+            System.out.print(node.val + " ");
+            preorder(node.left);
+            preorder(node.right);
+        }
+    }
+
+    // Postorder traversal (left, right, root)
+    void postorder(Node node) {
+        if (node != null) {
+            postorder(node.left);
+            postorder(node.right);
+            System.out.print(node.val + " ");
+        }
+    }
+
+    // Level order traversal
+    void levelorder() {
+        if (root == null) return;
+
+        java.util.Queue<Node> queue = new java.util.LinkedList<>();
+        queue.add(root);
+
+        while (!queue.isEmpty()) {
+            Node current = queue.poll();
+            System.out.print(current.val + " ");
+
+            if (current.left != null)
+                queue.add(current.left);
+
+            if (current.right != null)
+                queue.add(current.right);
+        }
+    }
+}
+
+// Driver code
+public class Main {
+    public static void main(String[] args) {
+        BinaryTree tree = new BinaryTree();
+        tree.buildSampleTree();
+
+        System.out.println("Inorder Traversal:");
+        tree.inorder(tree.root);
+
+        System.out.println("\nPreorder Traversal:");
+        tree.preorder(tree.root);
+
+        System.out.println("\nPostorder Traversal:");
+        tree.postorder(tree.root);
+
+        System.out.println("\nLevel Order Traversal:");
+        tree.levelorder();
+    }
+}
