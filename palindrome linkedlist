@@ -1,0 +1,77 @@
+import java.util.*;
+
+class ListNode {
+    int val;
+    ListNode next;
+
+    ListNode(int val) {
+        this.val = val;
+    }
+
+    // Static method to convert string like "[1,2,2,1]" into a linked list
+    public static ListNode deserialize(String data) {
+        if (data == null || data.length() <= 2) return null;
+
+        data = data.substring(1, data.length() - 1); // Remove [ and ]
+        String[] values = data.split(",");
+        ListNode dummy = new ListNode(0);
+        ListNode current = dummy;
+
+        for (String val : values) {
+            current.next = new ListNode(Integer.parseInt(val.trim()));
+            current = current.next;
+        }
+
+        return dummy.next;
+    }
+}
+
+class Solution {
+    public boolean isPalindrome(ListNode head) {
+        if (head == null || head.next == null) return true;
+
+        // Step 1: Find middle with fast and slow pointers
+        ListNode slow = head, fast = head;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        // Step 2: Reverse second half
+        ListNode secondHalf = reverse(slow);
+
+        // Step 3: Compare both halves
+        ListNode firstHalf = head;
+        while (secondHalf != null) {
+            if (firstHalf.val != secondHalf.val) return false;
+            firstHalf = firstHalf.next;
+            secondHalf = secondHalf.next;
+        }
+
+        return true;
+    }
+
+    // Reverse a linked list
+    private ListNode reverse(ListNode head) {
+        ListNode prev = null;
+        while (head != null) {
+            ListNode nextTemp = head.next;
+            head.next = prev;
+            prev = head;
+            head = nextTemp;
+        }
+        return prev;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        // Example input: "[1,2,2,1]"
+        String input = "[1,2,2,1]";
+        ListNode head = ListNode.deserialize(input);
+
+        Solution sol = new Solution();
+        boolean result = sol.isPalindrome(head);
+        System.out.println("Is Palindrome? " + result);
+    }
+}
