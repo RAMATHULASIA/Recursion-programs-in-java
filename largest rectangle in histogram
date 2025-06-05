@@ -1,0 +1,49 @@
+/** 
+NSE = Next Smaller Element
+PSE = Previous Smaller Element
+Check if there is any element smaller than the stack's top.
+If yes, pop it out and check the max rectangle area for the popped element.
+After popping, the new stack top will be the pse and the index that caused it to pop will be nse.
+
+Check for remaining elements after the main operation is completed. -1 or pse will be left and nse will be n
+*/
+
+class Solution {
+    public int largestRectangleArea(int[] heights) {
+        int n = heights.length;
+        int maxArea = 0;
+        Stack<Integer> stk = new Stack<>();
+        for (int i = 0; i < n; i++) {
+            while (!stk.isEmpty() && heights[stk.peek()] > heights[i]) {
+                int element = stk.pop(); // Popped index
+                int pse = stk.isEmpty() ? -1 : stk.peek(); // Index of pse
+                int nse = i; // Current index
+
+                int mult = (nse - pse - 1);
+                int currArea = heights[element] * mult;
+
+                maxArea = Math.max(maxArea, currArea);
+            }
+            stk.push(i); // Push current index for upcoming iterations
+        }
+
+        // Check for remaining elements
+        while (!stk.isEmpty()) {
+            int element = stk.pop(); // Popped index
+            int pse = stk.isEmpty() ? -1 : stk.peek(); // Index of pse
+            int nse = n; // Fixed index
+
+            int mult = (nse - pse - 1);
+            int currArea = heights[element] * mult;
+
+            maxArea = Math.max(maxArea, currArea);
+        }
+
+        return maxArea;
+    }
+}
+
+/**
+TC: O(N) - All iterations in stack sum up to only N elements.
+SC: O(N)
+*/
