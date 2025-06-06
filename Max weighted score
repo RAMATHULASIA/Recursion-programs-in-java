@@ -1,0 +1,50 @@
+PROBLEM STATEMENT:
+you are competing in a basketball contest.in this contest the score for each successful shot depends on both the distance from the basket and the players position.
+the ball is shot N times successfully .you are given an array A containing the distance of a player from basket for N shots .the index of array represents the position of the player.
+score is calculated by multipyng the position from the distance from the basket 
+your task is to find and return an integr value representing the maximum possible scor you can achieve by choosing a continguous subarray of size K from the givn array
+INPUT FORMAT:
+5
+2
+1 2 3 4 5
+OUTPUT:
+14
+
+import java.util.Scanner;
+
+public class Main {
+
+    public static int maxBasketballScore(int n, int k, int[] A) {
+        int maxScore = Integer.MIN_VALUE;
+
+        for (int i = 0; i <= n - k; i++) {
+            int currentScore = 0;
+
+            for (int j = 0; j < k; j++) {
+                currentScore += (j + 1) * A[i + j];
+            }
+
+            maxScore = Math.max(maxScore, currentScore);
+        }
+
+        return maxScore;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt(); // Read the number of elements
+        int k = sc.nextInt(); // Read the size of subarray
+
+        int[] A = new int[n]; // Declare the array of size n
+
+        for (int i = 0; i < n; i++) {
+            A[i] = sc.nextInt(); // Fill the array with input values
+        }
+
+        int result = maxBasketballScore(n, k, A); // Call the function to compute max score
+        System.out.println(result); // Print the result
+
+        sc.close(); // Close scanner
+    }
+}
