@@ -1,0 +1,110 @@
+import java.util.*;
+
+class TreeNode {
+    int val;
+    TreeNode left, right;
+    TreeNode() {}
+    TreeNode(int val) { this.val = val; }
+    TreeNode(int val, TreeNode left, TreeNode right) {
+        this.val = val; this.left = left; this.right = right;
+    }
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // User input: level-order tree with nulls as "null"
+        
+        String[] input = sc.nextLine().split(",");
+
+        TreeNode root = buildTreeFromLevelOrder(input);
+        Solution sol = new Solution();
+        TreeNode balanced = sol.balanceBST(root);
+
+        System.out.println(levelOrder(balanced));
+    }
+
+    // Build Tree from Level Order input
+    public static TreeNode buildTreeFromLevelOrder(String[] nodes) {
+        if (nodes.length == 0 || nodes[0].equals("null")) return null;
+
+        TreeNode root = new TreeNode(Integer.parseInt(nodes[0]));
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+
+        int i = 1;
+        while (!queue.isEmpty() && i < nodes.length) {
+            TreeNode current = queue.poll();
+
+            // Left child
+            if (i < nodes.length && !nodes[i].equals("null")) {
+                current.left = new TreeNode(Integer.parseInt(nodes[i]));
+                queue.offer(current.left);
+            }
+            i++;
+
+            // Right child
+            if (i < nodes.length && !nodes[i].equals("null")) {
+                current.right = new TreeNode(Integer.parseInt(nodes[i]));
+                queue.offer(current.right);
+            }
+            i++;
+        }
+
+        return root;
+    }
+
+    // Level Order Output
+    public static List<String> levelOrder(TreeNode root) {
+        List<String> result = new ArrayList<>();
+        if (root == null) return result;
+
+        Queue<TreeNode> q = new LinkedList<>();
+        q.offer(root);
+        while (!q.isEmpty()) {
+            TreeNode node = q.poll();
+            if (node == null) {
+                result.add("null");
+            } else {
+                result.add(String.valueOf(node.val));
+                q.offer(node.left);
+                q.offer(node.right);
+            }
+        }
+
+        // Trim trailing nulls
+        int i = result.size() - 1;
+        while (i >= 0 && result.get(i).equals("null")) {
+            result.remove(i--);
+        }
+
+        return result;
+    }
+}
+
+// The given Solution class
+class Solution {
+    public TreeNode balanceBST(TreeNode root) {
+        List<Integer> sortedElements = new ArrayList<>();
+        inOrderTraversal(root, sortedElements);
+        return buildBalancedBST(sortedElements, 0, sortedElements.size() - 1);
+    }
+
+    private void inOrderTraversal(TreeNode node, List<Integer> sortedElements) {
+        if (node == null) return;
+        inOrderTraversal(node.left, sortedElements);
+        sortedElements.add(node.val);
+        inOrderTraversal(node.right, sortedElements);
+    }
+
+    private TreeNode buildBalancedBST(List<Integer> elements, int start, int end) {
+        if (start > end) return null;
+        int mid = start + (end - start) / 2;
+        TreeNode node = new TreeNode(elements.get(mid));
+        node.left = buildBalancedBST(elements, start, mid - 1);
+        node.right = buildBalancedBST(elements, mid + 1, end);
+        return node;
+    }
+}
