@@ -1,0 +1,36 @@
+PROBLEM STATEMENT:
+there is an ant on your balcony it wants to leave the rail so sometimes it moves right and sometimes it moves left until it gets exhausted.
+INPUT:
+given an integer array A of size  N which consists of integer 1 and -1 only representng ants moves.  
+where 1 means ant moved unit distance towards the right side and -1 meanns it moved unit distance towards the left.
+MAIN TASK:
+your task is to find and return the integer value representing how many times the ant reaches back to original starting position 
+NOTE:  assume 1 based indexing   assume that the railing exteds infinitely on the either sides 
+Input format:  
+an integer  value N representing the number of moves made by the ant An integer array A consisting of the ants moves to either side.
+
+public class Main {
+    public static int countReturnsToOrigin(int[] A, int N) {
+        int position = 0, count = 0;
+        for (int i = 0; i < N; i++) {
+            position += A[i];
+            if (position == 0) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int N = sc.nextInt();
+        int[] A = new int[N];
+        for (int i = 0; i < N; i++) {
+            A[i] = sc.nextInt();
+        }
+
+        int result = countReturnsToOrigin(A, N);
+        System.out.println(result);
+    }
+}
